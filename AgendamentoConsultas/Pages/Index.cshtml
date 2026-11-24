@@ -1,0 +1,111 @@
+﻿@page
+@model AgendamentoConsultas.Pages.IndexModel
+
+@{
+    ViewData["Title"] = "Cadastro de Pacientes";
+}
+
+<div class="container mt-4">
+
+    <h1>Cadastro de Pacientes</h1>
+    <p> Sistema de Agendamento de Consultas Médicas</p>
+
+    <hr />
+
+    @if (TempData["Mensagem"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["Mensagem"]
+        </div>
+    }
+
+    <h3>Novo paciente</h3>
+
+    <form method="post">
+
+        <div class="mb-3">
+            <label asp-for="NovoPaciente.NomeCompleto"
+                   class="form-label">Nome completo</label>
+
+            <input asp-for="NovoPaciente.NomeCompleto"
+                   class="form-control" />
+
+            <span asp-validation-for="NovoPaciente.NomeCompleto"
+                  class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="NovoPaciente.Email"
+                   class="form-label">E-mail</label>
+
+            <input asp-for="NovoPaciente.Email"
+                   class="form-control" />
+
+            <span asp-validation-for="NovoPaciente.Email"
+                  class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="NovoPaciente.Telefone"
+                   class="form-label">Telefone</label>
+
+            <input asp-for="NovoPaciente.Telefone"
+                   class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="NovoPaciente.DataNascimento"
+                   class="form-label">Data de nascimento</label>
+
+            <input asp-for="NovoPaciente.DataNascimento"
+                   type="date"
+                   class="form-control" />
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+            Cadastrar paciente
+        </button>
+
+    </form>
+
+    <hr class="my-4" />
+
+    <h3>Pacientes cadastrados</h3>
+
+    @if (Model.Pacientes.Count == 0)
+    {
+        <p>Nenhum paciente cadastrado.</p>
+    }
+    else
+    {
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>E-mail</th>
+                    <th>Telefone</th>
+                    <th>Data de nascimento</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var paciente in Model.Pacientes)
+                {
+                    <tr>
+                        <td>@paciente.NomeCompleto</td>
+                        <td>@paciente.Email</td>
+                        <td>@(paciente.Telefone ?? "-")</td>
+                        <td>
+                            @(paciente.DataNascimento?.ToString("dd/MM/yyyy") ?? "-")
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
